@@ -1,0 +1,6 @@
+sqlite3
+flask 
+flask_session
+werkzeug.security
+groq
+os

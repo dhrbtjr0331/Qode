@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Homepage
+{% endblock %}
+
+{% block main %}
+<p>Coding Interview Prep Powered by Llama 3.1</p>
+
+<!-- Difficulty Selection -->
+<div class="container mt-5">
+    <h1 class="mb-4"><b>Difficulty</b></h1>
+    <div class="d-flex justify-content-center">
+        <button type="button" name="difficulty" value="easy" class="btn me-2" onclick="selectDifficulty(this)">Easy</button>
+        <button type="button" name="difficulty" value="medium" class="btn me-2" onclick="selectDifficulty(this)">Medium</button>
+        <button type="button" name="difficulty" value="hard" class="btn me-2" onclick="selectDifficulty(this)">Hard</button>
+    </div>
+</div>
+
+<!-- Topic Selection -->
+<div class="container mt-5">
+    <h1 class="mb-4"><b>Select a Topic</b></h1>
+    <div class="dropdown">
+        <button class="btn btn-thinborder dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            Topics
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            {% for topic in topics %}
+                <li><button type="button" class="dropdown-item" onclick="selectTopic('{{ topic }}')">{{ topic }}</button></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<!-- Submission Form -->
+<div class="container mt-5">
+    <form action="/" method="POST" onsubmit="return validateForm()">
+        <!-- Hidden inputs to store selected difficulty and topic -->
+        <input type="hidden" name="difficulty" id="selectedDifficulty" required>
+        <input type="hidden" name="topic" id="selectedTopic" required>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-thickborder">Generate Question</button>
+    </form>
+</div>
+
+<script>
+    // Function to select the difficulty
+    function selectDifficulty(button) {
+        // Remove the 'active' class from all buttons
+        var buttons = document.querySelectorAll('.btn');
+        buttons.forEach(function(btn) {
+            btn.classList.remove('active');
+        });
+
+        // Add the 'active' class to the clicked button
+        button.classList.add('active');
+
+        // Store the selected difficulty
+        var selectedDifficulty = document.getElementById('selectedDifficulty');
+        selectedDifficulty.value = button.value;
+    }
+
+    // Function to select the topic
+    function selectTopic(topic) {
+        var dropdownButton = document.getElementById('dropdownMenuButton');
+        var selectedTopic = document.getElementById('selectedTopic');
+        
+        // Update the dropdown button text and store the selected topic
+        dropdownButton.textContent = topic;
+        selectedTopic.value = topic;
+    }
+
+    // Function to validate form submission
+    function validateForm() {
+        var selectedDifficulty = document.getElementById('selectedDifficulty').value;
+        var selectedTopic = document.getElementById('selectedTopic').value;
+        
+        if (selectedDifficulty === "" || selectedTopic === "") {
+            alert("Please select both a difficulty and a topic before submitting.");
+            return false;
+        }
+        return true;
+    }
+</script>
+
+{% endblock %}

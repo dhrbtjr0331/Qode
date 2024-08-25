@@ -1,0 +1,199 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Question
+{% endblock %}
+
+{% block main %}
+<div class="container-fluid mt-5">
+    <div class="titles">
+        <div class="title-left">
+            <h3 id="question_title">{{ title }}</h3>
+        </div>
+        <div class="title-middle">
+            <h3>Submit Your Code</h3>
+        </div>
+        <div class="title-right">
+            <h3>Llama Feedback</h3>
+        </div>
+    </div>
+    <div class="split-container">
+        <!-- First Third for Question Description -->
+        <div class="split split-left">
+            <div class="description-box" id="question_description">
+                {{ description.strip() }}
+            </div>
+        </div>
+        <!-- Divider for resizing -->
+        <div class="divider divider-left"></div>
+        
+        <!-- Second Third for Code Input -->
+        <div class="split split-middle">
+            <div id="editor"># Write your Python code here
+{{ code or '' }}</div>
+            <form action="/ask-llama" method="POST" onsubmit="return submitForm()">
+                <input type="hidden" id="code" name="code">
+                <button type="submit" class="btn btn-thickborder mt-3">Ask Llama</button>
+            </form>
+            <form action="/submit_code" method="POST" onsubmit="return submitForm2()">
+                <input type="hidden" id="code1" name="code">
+                <button type="submit" class="btn btn-thickborder mt-3">Submit</button>
+            </form>
+            <h3>Execution Output</h3>
+            <pre>{{ output or 'No output yet.' }}</pre>
+        </div>
+        <!-- Divider for resizing -->
+        <div class="divider divider-right"></div>
+        
+        <!-- Last Third for LLM Prompt and Response -->
+        <div class="split split-right">
+            <div class="description-box" id="llm_feedback">
+                {{ feedback or 'Feedback will be displayed here after running the code.' }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Adjust the container to be wider */
+    .container-fluid {
+        max-width: 95%; /* Adjust this percentage to control the overall width */
+    }
+
+    /* Titles above each split */
+    .titles {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .title-left, .title-middle, .title-right {
+        width: 32%; /* Adjust based on the overall width */
+        text-align: center;
+    }
+
+    /* Basic split-container styling */
+    .split-container {
+        display: flex;
+        width: 100%;
+        height: 500px; /* Adjust as needed */
+        overflow: hidden;
+        position: relative;
+    }
+
+    /* Split sections */
+    .split {
+        height: 100%;
+        overflow: auto;
+    }
+
+    .split-left, .split-middle, .split-right {
+        width: 33.33%; /* Start with equal widths */
+    }
+
+    /* Draggable dividers */
+    .divider {
+        width: 5px;
+        background-color: #ddd;
+        cursor: col-resize;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+
+    .divider-left {
+        left: 33.33%;
+    }
+
+    .divider-right {
+        left: 66.66%;
+    }
+
+    .divider:hover {
+        background-color: #aaa;
+    }
+
+    /* Editor height adjustment */
+    #editor {
+        height: calc(100% - 60px); /* Subtract the height of other elements like the heading */
+        width: 100%;
+        border: 1px solid #ddd;
+        font-size: 16px;
+    }
+</style>
+
+<script>
+    // Initialize Ace Editor
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");  // You can choose different themes
+    editor.session.setMode("ace/mode/python");  // Set mode to Python
+
+    // Function to submit the code
+    function submitForm() {
+        var code = editor.getValue();  // Get the code from the editor
+        document.getElementById('code').value = code;  // Set the code in the hidden input
+        return true;  // Allow form submission
+    }
+    function submitForm2() {
+        var code = editor.getValue();  // Get the code from the editor
+        document.getElementById('code1').value = code;  // Set the code in the hidden input
+        return true;  // Allow form submission
+    }
+
+    // JavaScript for handling the draggable divider
+    const dividerLeft = document.querySelector('.divider-left');
+    const dividerRight = document.querySelector('.divider-right');
+    const leftSide = document.querySelector('.split-left');
+    const middleSide = document.querySelector('.split-middle');
+    const rightSide = document.querySelector('.split-right');
+
+    let isDraggingLeft = false;
+    let isDraggingRight = false;
+
+    dividerLeft.addEventListener('mousedown', function (e) {
+        isDraggingLeft = true;
+        document.addEventListener('mousemove', dragHandlerLeft);
+        document.addEventListener('mouseup', function () {
+            isDraggingLeft = false;
+            document.removeEventListener('mousemove', dragHandlerLeft);
+        });
+    });
+
+    dividerRight.addEventListener('mousedown', function (e) {
+        isDraggingRight = true;
+        document.addEventListener('mousemove', dragHandlerRight);
+        document.addEventListener('mouseup', function () {
+            isDraggingRight = false;
+            document.removeEventListener('mousemove', dragHandlerRight);
+        });
+    });
+
+    function dragHandlerLeft(e) {
+        if (!isDraggingLeft) return;
+
+        let offsetLeft = e.clientX;
+        let containerWidth = dividerLeft.parentElement.getBoundingClientRect().width;
+        let leftWidth = (offsetLeft / containerWidth) * 100;
+        let middleWidth = 100 - leftWidth - (rightSide.getBoundingClientRect().width / containerWidth) * 100;
+
+        leftSide.style.width = `${leftWidth}%`;
+        middleSide.style.width = `${middleWidth}%`;
+        dividerLeft.style.left = `${leftWidth}%`;
+        dividerRight.style.left = `${leftWidth + middleWidth}%`;
+    }
+
+    function dragHandlerRight(e) {
+        if (!isDraggingRight) return;
+
+        let offsetLeft = e.clientX;
+        let containerWidth = dividerRight.parentElement.getBoundingClientRect().width;
+        let rightWidth = ((containerWidth - offsetLeft) / containerWidth) * 100;
+        let middleWidth = 100 - rightWidth - (leftSide.getBoundingClientRect().width / containerWidth) * 100;
+
+        rightSide.style.width = `${rightWidth}%`;
+        middleSide.style.width = `${middleWidth}%`;
+        dividerRight.style.left = `${(100 - rightWidth)}%`;
+    }
+</script>
+{% endblock %}

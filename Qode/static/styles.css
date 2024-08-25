@@ -1,0 +1,140 @@
+body 
+{
+    font-family: 'Monaco', monospace;
+}
+
+/* Size for brand */
+nav .navbar-brand
+{
+    font-size: xx-large;
+}
+
+/* Colors for brand */
+nav .navbar-brand .blue
+{
+    color: #537fbe;
+}
+nav .navbar-brand .red
+{
+    color: #ea433b;
+}
+nav .navbar-brand .yellow
+{
+    color: #f5b82e;
+}
+nav .navbar-brand .green
+{
+    color: #2e944b;
+}
+.table-striped-blue tbody tr:nth-of-type(odd) {
+    background-color: #e0f7fa; /* Light blue */
+}
+.table-striped-blue tbody tr:nth-of-type(even) {
+    background-color: #b2ebf2; /* Slightly darker blue */
+}
+.btn-thickborder {
+    background-color: #ffffff; /* Light blue color */
+    color: rgb(0, 0, 0);
+    border: 4px solid #000000;
+    font-weight: bold;
+}
+.btn-thickborder:hover {
+    border: 4px solid #000000; /* Ensure the border stays the same on hover */
+    background-color: #e0e0e0; /* Slightly darker background on hover */
+    color: rgb(0, 0, 0); /* Text color on hover */
+    font-weight: bold;
+}
+
+.btn-lightblue:hover {
+    background-color: #4ac0e8; /* Slightly darker light blue on hover */
+}
+.light-blue {
+    color: #4ac0e8; /* Light blue color */
+}
+.dark-blue {
+    background-color: #3367a0; /* Dark blue color */
+    color: white;
+    border-color: #3367a0; /* Optional: match border color with background */
+}
+.active {
+    background-color: #fcfcfc; /* Dark blue color */
+    color: rgb(0, 0, 0);
+    border: 2px solid #000000; /* Darker border color */
+}
+.btn-thinborder {
+    background-color: #fcfcfc; /* Dark blue color */
+    color: rgb(0, 0, 0);
+    border: 2px solid #000000; /* Darker border color */
+}
+.description-box {
+    word-wrap: break-word;          /* Allows words to break to the next line */
+    white-space: pre-line;          /* Preserves newlines and spaces, and wraps text as needed */
+    overflow-wrap: break-word;      /* Handles breaking of long words or URLs */
+    font-family: "Courier New", monospace;  /* Monospace font for code-like appearance */
+    background-color: #f9f9f9;      /* Light grey background for better readability */
+    padding: 15px;                  /* Space inside the box */
+    border: 1px solid #e0e0e0;      /* Light grey border */
+    border-radius: 5px;             /* Rounded corners for a softer look */
+    text-align: left;               /* Left-align the text */
+    max-width: 100%;                /* Ensure the box does not exceed the parent width */
+    overflow-x: auto;               /* Allow horizontal scrolling if needed */
+    line-height: 1.5;               /* Improve readability with better line spacing */
+    color: #333;                    /* Darker text color for contrast */
+}
+
+
+/* Adjust the container to be wider */
+.container-fluid {
+    max-width: 95%; /* Adjust this percentage to control the overall width */
+}
+
+/* Basic split-container styling */
+.split-container {
+    display: flex;
+    width: 100%;
+    height: 500px; /* Adjust as needed */
+    overflow: hidden;
+    position: relative;
+}
+
+/* Split sections */
+.split {
+    height: 100%;
+    overflow: auto;
+}
+
+.split-left, .split-middle, .split-right {
+    width: 33.33%; /* Start with equal widths */
+}
+
+/* Draggable dividers */
+.divider {
+    width: 5px;
+    background-color: #ddd;
+    cursor: col-resize;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+.divider-left {
+    left: 33.33%;
+    width: 10%
+}
+
+.divider-right {
+    left: 66.66%;
+}
+
+.divider:hover {
+    background-color: #aaa;
+}
+
+/* Editor height adjustment */
+#editor {
+    height: calc(100% - 60px); /* Subtract the height of other elements like the heading */
+    width: 100%;
+    border: 1px solid #ddd;
+    font-size: 16px;
+}

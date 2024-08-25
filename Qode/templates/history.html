@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+    <div class="text-center">
+        <h2>Submission History</h2>
+    </div>
+    <table class="table table-striped table-striped-black mb-5">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Your Answer</th>
+            <th>Date & Time</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+                <tr>
+                    <td>{{ row[0] }}</td>
+                    <td>
+                        <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#description-{{ loop.index }}" aria-expanded="false" aria-controls="description-{{ loop.index }}">
+                            Description (Click to View)
+                        </button>
+                        <div id="description-{{ loop.index }}" class="collapse">
+                            {{ row[1] }}
+                        </div>
+                    </td>
+                    <td>
+                        <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#code-{{ loop.index }}" aria-expanded="false" aria-controls="code-{{ loop.index }}">
+                            Code (Click to View)
+                        </button>
+                        <div id="code-{{ loop.index }}" class="collapse">
+                            <pre>{{ row[2] }}</pre>
+                        </div>
+                    </td>
+                    <td>{{ row[3] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
