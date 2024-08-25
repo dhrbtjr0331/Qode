@@ -7,7 +7,6 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from groq import Groq, Client
 from helpers import login_required
 
-
 # Configure application
 app = Flask(__name__)
 
@@ -41,6 +40,9 @@ global_topics = [
     "Geometry",
     "Bit Manipulation"
     ]
+
+#groq API set up
+client = Client(api_key='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')
 
 #Ensure responses are not cached
 @app.after_request
@@ -234,13 +236,17 @@ def askLLM():
             output = f"Error executing code: {str(e)}"
 
         question_to_llm = f"You are an coding assistant. The question that the user has to answer is: \n{description}. \n The user has submitted the following as the answer: \n {code} \n. Please give some hints or advice on optimization without giving away the answer. Also, let the user know if he/she got it correct with the most optimized way."
-        client = Groq(api_key=os.environ.get("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"),)
+        
 
         chat_completion = client.chat.completions.create(
             messages=[
                 {
-                    "role": "user",
+                    "role": "assistant",
                     "content": question_to_llm,
+                },
+                {
+                    "role": "user",
+                    "content": code,
                 }
             ],
             model="llama3-8b-8192",
