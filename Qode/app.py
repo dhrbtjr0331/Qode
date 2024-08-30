@@ -42,7 +42,7 @@ global_topics = [
     ]
 
 #groq API set up
-client = Client(api_key='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')
+client = Client(api_key='YOUR_API_KEY_FROM_GROQ')
 
 #Ensure responses are not cached
 @app.after_request
