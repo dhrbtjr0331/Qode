@@ -3,6 +3,6 @@ Llama 3.1-powered Coding Interview Prep Tool
 
 Click the link below to watch a 3 minute demonstration of the app on YouTube:
 
-[click here](https://youtu.be/YCtP-8GMg_c) or https://youtu.be/YCtP-8GMg_c
+[click here]https://youtu.be/YCtP-8GMg_c
 
 ![Alt text](homepage.png)
