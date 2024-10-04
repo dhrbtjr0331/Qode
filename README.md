@@ -1,6 +1,8 @@
 # Qode
 Llama 3.1-powered Coding Interview Prep Tool
 
-Make sure to install all the libraries in requirements.txt onto your local computer before running the application with flask!
+Click the link below to watch a 3 minute demonstration of the app on YouTube:
 
-![Alt text](Qode.mov)
+[click here](https://youtu.be/YCtP-8GMg_c)
+
+![Alt text](homepage.png)
